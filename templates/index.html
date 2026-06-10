@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal da Transparência</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <circle cx="12" cy="11" r="3"/>
+                    </svg>
+                </div>
+                <span>Portal da<br>Transparência</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-page="consulta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <div><strong>Consulta</strong><small>Pessoas Físicas</small></div>
+                </button>
+                <button class="nav-item" data-page="historico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <div><strong>Histórico</strong><small>Consultas realizadas</small></div>
+                </button>
+                <button class="nav-item disabled" title="Em breve">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <div><strong>Favoritos</strong><small>Pessoas acompanhadas</small></div>
+                </button>
+                <button class="nav-item disabled" title="Em breve">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                    <div><strong>Relatórios</strong><small>Exportar dados</small></div>
+                </button>
+                <button class="nav-item" data-page="configuracoes">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <div><strong>Configurações</strong><small>Preferências</small></div>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="info-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <div>
+                        <strong>Dados oficiais</strong>
+                        <p>Informações obtidas diretamente dos sistemas públicos do Governo Federal.</p>
+                        <a href="https://portaldatransparencia.gov.br/api-de-dados/usuario/cadastro" target="_blank">Saiba mais →</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main">
+            <!-- CONSULTA -->
+            <section id="page-consulta" class="page active">
+                <header class="page-header">
+                    <div>
+                        <h1>Portal da Transparência</h1>
+                        <p>Consulta Consolidada de Pessoas Físicas</p>
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+                        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                </header>
+
+                <div class="search-box">
+                    <form id="search-form">
+                        <label for="cpf-input">Buscar por CPF</label>
+                        <div class="search-row">
+                            <div class="input-wrap">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <input type="text" id="cpf-input" placeholder="000.000.000-00" maxlength="14" autocomplete="off" inputmode="numeric">
+                                <button type="button" class="input-clear hidden" id="cpf-clear" aria-label="Limpar">×</button>
+                            </div>
+                            <button type="submit" class="btn-primary" id="search-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                <span class="btn-text">Buscar</span>
+                                <span class="btn-loader hidden"></span>
+                            </button>
+                        </div>
+                        <p class="search-hint">A consulta é realizada em todos os serviços da API que aceitam CPF.</p>
+                    </form>
+                </div>
+
+                <div id="alert" class="alert hidden"></div>
+
+                <div id="profile-card" class="profile-card hidden">
+                    <div class="profile-left">
+                        <div class="avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
+                        <div>
+                            <h2 id="profile-nome">—</h2>
+                            <p id="profile-cpf">CPF: —</p>
+                            <p class="profile-date" id="profile-date">Última consulta: —</p>
+                        </div>
+                    </div>
+                    <div class="status-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+                        <div><strong>Consulta concluída</strong><span>Dados atualizados</span></div>
+                    </div>
+                </div>
+
+                <div id="metrics" class="metrics hidden">
+                    <div class="metric-card">
+                        <div class="metric-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        </div>
+                        <div>
+                            <span class="metric-label">Serviços encontrados</span>
+                            <span class="metric-value blue" id="metric-servicos">0</span>
+                            <span class="metric-sub">Módulos consultados</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                        </div>
+                        <div>
+                            <span class="metric-label">Total de registros</span>
+                            <span class="metric-value green" id="metric-registros">0</span>
+                            <span class="metric-sub">Registros localizados</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        </div>
+                        <div>
+                            <span class="metric-label">Categorias</span>
+                            <span class="metric-value purple" id="metric-categorias">0</span>
+                            <span class="metric-sub">Tipos de informação</span>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="services-section" class="services-section hidden">
+                    <h3>Serviços com informações encontradas</h3>
+                    <div id="services-grid" class="services-grid"></div>
+                </section>
+
+                <section id="empty-section" class="empty-state hidden">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                    <h3>Nenhum registro encontrado</h3>
+                    <p>O CPF informado não possui registros nos serviços consultados.</p>
+                </section>
+            </section>
+
+            <!-- HISTÓRICO -->
+            <section id="page-historico" class="page">
+                <header class="page-header">
+                    <div>
+                        <h1>Histórico</h1>
+                        <p>Consultas realizadas anteriormente</p>
+                    </div>
+                </header>
+                <div id="historico-list" class="historico-list"></div>
+                <div id="historico-empty" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <h3>Nenhuma consulta realizada</h3>
+                    <p>As buscas por CPF ficam salvas automaticamente aqui.</p>
+                </div>
+            </section>
+
+            <!-- CONFIGURAÇÕES -->
+            <section id="page-configuracoes" class="page config-page">
+                <header class="page-header">
+                    <div>
+                        <h1>Configurações</h1>
+                        <p>Preferências e credenciais da API</p>
+                    </div>
+                </header>
+
+                <div class="config-card">
+                    <h3>Chave da API — Portal da Transparência</h3>
+                    <p class="config-desc">
+                        Cadastre sua chave em
+                        <a href="https://portaldatransparencia.gov.br/api-de-dados/usuario/cadastro" target="_blank">portaldatransparencia.gov.br</a>.
+                        A chave fica salva localmente no banco SQLite.
+                    </p>
+
+                    <form id="config-form">
+                        <div class="form-group">
+                            <label for="api-header">Nome do header</label>
+                            <input type="text" id="api-header" value="chave-api-dados" readonly>
+                            <small>Header padrão exigido pela API federal.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="api-key">Chave da API</label>
+                            <input type="password" id="api-key" placeholder="Cole sua chave aqui" autocomplete="off">
+                            <small id="api-key-status">Nenhuma chave configurada.</small>
+                        </div>
+                        <button type="submit" class="btn-primary" id="config-save-btn">
+                            <span class="btn-text">Salvar configurações</span>
+                            <span class="btn-loader hidden"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="author-card">
+                    <p class="author-label">Desenvolvido por</p>
+                    <p class="author-name">Cristiano Ribeiro Ritta</p>
+                    <div class="author-links">
+                        <a href="https://www.cristianoritta.com.br" target="_blank" rel="noopener">www.cristianoritta.com.br</a>
+                        <a href="mailto:cristiano-ritta@pc.rs.gov.br">cristiano-ritta@pc.rs.gov.br</a>
+                        <a href="tel:+5553999270103">(53) 99927-0103</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-category" id="modal-category"></span>
+                    <h3 id="modal-title"></h3>
+                    <p id="modal-desc"></p>
+                </div>
+                <button class="modal-close" id="modal-close" aria-label="Fechar">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
